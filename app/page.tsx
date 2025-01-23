@@ -2,7 +2,7 @@ import React from 'react'
 
 const Home = () => {
   return (
-    <div> Welcome to  Healthbridge</div>
+    <div> Welcome to Medcare, your gateway to affordable healthcare!"</div>
   )
 }
 
