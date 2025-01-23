@@ -1,6 +1,8 @@
 Project Name
 Healthbridge
 
+Project Description
+
 Product Vision
 To bridge the gap between underserved communities and quality healthcare. We are  building an open-source platform that makes it easy for anyone to find nearby providers, see upfront costs, schedule appointments, and share honest feedback.
 It’s about transparency, accessibility, and giving people the tools they need to take charge of their health.
