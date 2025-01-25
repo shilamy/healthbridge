@@ -12,6 +12,29 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
+    await queryInterface.bulkInsert('Users', [
+      {
+        email: 'Sam',
+        email: 'sammy@email.com',
+        password: 'password',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Jane',
+        email: 'jane@email.com',
+        password: 'password',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'John',
+        email: 'johny@email.com',
+        password: 'password',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+    ])
   },
 
   async down (queryInterface, Sequelize) {
@@ -21,5 +44,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+    await queryInterface.bulkDelete('Users', null, {});
   }
 };
