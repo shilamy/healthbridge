@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 
+
 export interface UserAttributes {
     name?: string;
     email?: string;
@@ -18,6 +19,13 @@ export interface TypedRequest extends Request {
     password: string;
     confirm_password: string;
   };
+}
+
+export interface VerifyRequest extends Request {
+  body: {
+    email: string;
+    code: string;
+  }
 }
 
 export interface UserData {
@@ -67,4 +75,22 @@ export interface EmailResponse {
 export interface loginData {
   email: string;
   password: string;
+}
+
+export interface UserRole {
+  id: string;
+  email: string;
+  role: string[];
+}
+
+export interface ValidationResult {
+  email: string;
+  code: string;
+}
+
+export interface VerificationResponse {
+  statusCode: number;
+  status: string;
+  message: string;
+  data: any;
 }
