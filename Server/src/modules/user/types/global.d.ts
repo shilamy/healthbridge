@@ -1,3 +1,4 @@
+import { UserRole } from "./type";
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
@@ -9,4 +10,15 @@ declare global {
   }
 }
 
+// declare global {
+//   namespace Express {
+//     interface Request {
+//       user: {
+//         id: string;
+//         role: UserRole;
+//       }
+//     }
+//   }
+// }
 export {};
+
