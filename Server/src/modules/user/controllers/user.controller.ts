@@ -1,6 +1,6 @@
-import { getAllUsers, getOneUser, updateUser } from '../services/user.service';
-import { userUpdateSchema } from '../../../utils/validator';
-import { UserResponseData } from '../types/type';
+import { deleteUser, getAllUsers, getOneUser, updateUser } from '../services/user.service';
+import { idSchema, userUpdateSchema } from '../../../utils/validator';
+import { UserResponseData } from '../../types/type';
 import  { Response, Request as ExpressRequest } from 'express';
 
 
@@ -46,17 +46,32 @@ const UserController = {
   updateUser: async (req: ExpressRequest, res: Response): Promise<Response> => {
     try {
       const id = req.params.id;
-      const validatedData = await userUpdateSchema.validate(req.body, { 
-        abortEarly: false 
-      });
+      const validatedData = await userUpdateSchema.validate(req.body, req.params);
       const update = await updateUser( id, validatedData);
       return res.status(update.statusCode).send({ status: (update.status), message: (update.message), data: (update.data)})
     } catch (error) {
       return res.status(500).send({
         error: error
-      })
+      });
     }
   },
+
+  deleteUser: async (req: ExpressRequest, res: Response): Promise<Response> => {
+    try {
+      const payload = await idSchema.validate(req.params.id);
+
+      const deleteUserById = await deleteUser(payload);
+      return res.status(deleteUserById.statusCode).send({
+        status: deleteUserById.status,
+        message: deleteUserById.message,
+        data: deleteUserById.data
+      })
+    } catch (error) {
+      return res.status(500).send({
+        error: error
+      });
+    }
+  }
 }
 
 export default UserController;
