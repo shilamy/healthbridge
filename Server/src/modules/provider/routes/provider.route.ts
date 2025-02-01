@@ -11,11 +11,11 @@ providerRouter.get('/health', (req: Request, res: Response) => {
   res.status(200).json({ message: "Healthy!"})
 })
 
-providerRouter.post("/register", checkRole(['user']), async (req: Request, res: Response) => {
+providerRouter.post("/register", async (req: Request, res: Response) => {
   await providerController.register(req, res);
 });
 
-providerRouter.get('/all', async (req: Request, res: Response) => {
+providerRouter.get('/all', checkRole(['user']), async (req: Request, res: Response) => {
   await providerController.getProviders(req, res)
 });
 
