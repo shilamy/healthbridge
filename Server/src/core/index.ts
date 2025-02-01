@@ -22,7 +22,7 @@ server.get("/home", (req, res) => {
 });
 
 server.use(limiter);
-server.use('/v1', router);
+server.use('/api/v1', router);
 
 const startServer = async () => {
   try {
