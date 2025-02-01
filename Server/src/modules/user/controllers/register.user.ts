@@ -3,7 +3,7 @@ import * as yup from 'yup';
 
 import { verifyUser, registerUser } from '../services/user.registration';
 import { userRegistrationSchema, userVerificationSchema } from '../../../utils/validator';
-import { TypedRequest, UserData, UserResponse, VerifyRequest } from '../types/type';
+import { TypedRequest, UserData, UserResponse, VerifyRequest } from '../../types/type';
 
 
 const userRegistration = {
@@ -12,12 +12,7 @@ const userRegistration = {
         const validatedData = await userRegistrationSchema.validate(req.body, { 
           abortEarly: false 
         });
-        const response: UserResponse = {
-          statusCode: 200,
-          status: "success",
-          message: "Users fetched from cache",
-          data: []
-        }
+        
         const { confirm_password, ...userData } = validatedData as UserData;
         const user = await registerUser(userData);
         if (user.statusCode === 201 ){
@@ -26,7 +21,7 @@ const userRegistration = {
             message: (user.message + ' Check your email for verification code'),
             data: (user.data) });
         }
-        return res.status(response.statusCode).json( response);
+        return res.status(user.statusCode).json( user);
         
       } catch (error) {
           if (error instanceof yup.ValidationError) {
