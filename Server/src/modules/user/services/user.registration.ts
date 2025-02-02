@@ -22,7 +22,6 @@ export const registerUser = async (userData: CreationAttributes<User>) => {
         status: 'fail',
         message: `User already exists, login with this email and password`,
         data: null
-      };
     }
     const hashed = await bcrypt.hash(userData.password, salt);
     let userCreationData = {

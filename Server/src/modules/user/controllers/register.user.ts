@@ -5,14 +5,13 @@ import { verifyUser, registerUser } from '../services/user.registration';
 import { userRegistrationSchema, userVerificationSchema } from '../../../utils/validator';
 import { TypedRequest, UserData, UserResponse, VerifyRequest } from '../../types/type';
 
-
 const userRegistration = {
   register: async (req: TypedRequest, res: Response): Promise<Response> => {
       try {
         const validatedData = await userRegistrationSchema.validate(req.body, { 
           abortEarly: false 
         });
-        
+
         const { confirm_password, ...userData } = validatedData as UserData;
         const user = await registerUser(userData);
         if (user.statusCode === 201 ){

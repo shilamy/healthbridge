@@ -32,4 +32,3 @@ const authentication = (req: Request, res: Response, next: NextFunction) => {
         res.status(401).send({ error: 'Please authenticate.' });
     } 
 };
-export default authentication;

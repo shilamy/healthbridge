@@ -6,7 +6,6 @@ import { TypedRequest } from '../../types/type';
 import { checkRole } from '../../../middlewares/authorisation';
 import { deleteUser } from '../../../../../Server/src/modules/user/services/user.service';
 
-
 const userRouter = Router();
 
 userRouter.post("/register", async (req: TypedRequest, res: Response) => {

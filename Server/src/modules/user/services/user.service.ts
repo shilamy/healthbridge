@@ -109,7 +109,6 @@ export const deleteUser = async (id: string) => {
         data: [],
       };
     }
-
     return {
       statusCode: 200,
       status: "success",

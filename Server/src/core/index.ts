@@ -14,7 +14,6 @@ const limiter = rateLimit ({
   standardHeaders: true,
   legacyHeaders: false,
   message: 'Too many request from this IP, try again after 10 minutes'
-
 })
 
 server.get("/home", (req, res) => {

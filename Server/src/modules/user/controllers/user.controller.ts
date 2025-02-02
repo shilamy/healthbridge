@@ -46,6 +46,7 @@ const UserController = {
   updateUser: async (req: ExpressRequest, res: Response): Promise<Response> => {
     try {
       const id = req.params.id;
+
       const validatedData = await userUpdateSchema.validate(req.body, req.params);
       const update = await updateUser( id, validatedData);
       return res.status(update.statusCode).send({ status: (update.status), message: (update.message), data: (update.data)})
