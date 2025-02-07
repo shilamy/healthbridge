@@ -1,19 +1,34 @@
+import jwt from 'jsonwebtoken';
+
 import { Request, Response, NextFunction } from 'express';
+import { JwtPayload } from '../modules/types/type';
 
-import { decodeToken } from '../utils/jwtUtils';
-import { UserRole } from '../utils/roles';
+const secret: string = process.env.JWT_SECRET || 'secret';
 
-export function authenticate(req: Request, res: Response, next: NextFunction) {
-    const token = req.cookies['sessionId'];
+// interface AuthenticatedRequest extends Request {
+//     user?: JwtPayload;
+// }
+const authentication = (req: Request, res: Response, next: NextFunction) => {
+    if (!secret) {
+        throw new Error('JWT_SECRET must be defined in environment variables');
+    }
+    const token = req.headers.authorization?.split(' ')[1] as string;
     if (!token) {
         return res.status(401).json({ message: 'No token provided' });
     }
+    try {
+        const decoded = jwt.verify(token, secret as string) as JwtPayload;
+        // return decoded;
+        if (!decoded) {
+            res.status(401).json({ message: 'Unauthorized' })
+            return;
+        }
 
-    const user = decodeToken(token);
-    if (!user) {
-        return res.status(401).json({ message: 'Unauthorized' });
-    }
-
-    req.user = user as  { id: string; role: UserRole };
-    next();
-}
+        req.user = decoded //as  { id: string; role: UserRole };
+        next();
+    
+    } catch (error) {
+        console.error('AUTHENTICATION ERROR:', error);
+        res.status(401).send({ error: 'Please authenticate.' });
+    } 
+};

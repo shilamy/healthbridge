@@ -5,7 +5,7 @@ import { getFromRedis, saveToRedis } from "../../../core/redis";
 import { CreationAttributes } from "sequelize";
 import { User } from "../models/user.model";
 import sendEmail from "./email.service";
-import { VerificationResponse, VerifyRequest } from "../types/type";
+import { VerificationResponse, VerifyRequest } from "../../types/type";
 
 const salt = process.env.BCRYPT_SALT || 10;
 
@@ -21,7 +21,7 @@ export const registerUser = async (userData: CreationAttributes<User>) => {
         statusCode: 400,
         status: 'fail',
         message: `User already exists, login with this email and password`,
-      };
+        data: null
     }
     const hashed = await bcrypt.hash(userData.password, salt);
     let userCreationData = {

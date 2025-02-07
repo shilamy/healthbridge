@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import { getFromRedis, saveToRedis } from "../../../core/redis";
 import { CreationAttributes } from "sequelize";
 import { User } from "../models/user.model";
-import { UserResponseData } from "../types/type";
+import { UserResponseData } from "../../types/type";
 
 export const getAllUsers = async (): Promise<UserResponseData> => {
   try {
@@ -100,8 +100,8 @@ export const updateUser = async (
 
 export const deleteUser = async (id: string) => {
   try {
-    const user = await User.findByPk(id);
-    if (!user) {
+    const deletedRow = await User.destroy({ where: { id }});
+    if (!deletedRow || deletedRow === 0) {
       return {
         statusCode: 404,
         status: "fail",
@@ -109,12 +109,11 @@ export const deleteUser = async (id: string) => {
         data: [],
       };
     }
-    await user.destroy();
     return {
       statusCode: 200,
       status: "success",
       message: "User deleted",
-      data: [],
+      data: deletedRow,
     };
   } catch (error) {
     throw error;

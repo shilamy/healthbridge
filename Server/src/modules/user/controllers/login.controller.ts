@@ -2,7 +2,7 @@ import { Response, Request } from 'express';
 
 import { loginUser, logoutUser } from '../services/login.service';
 import { loginSchema } from '../../../utils/validator';
-import { loginData } from '../types/type';
+import { loginData } from '../../types/type';
 
 export const login = async (req: Request, res: Response): Promise<Response> => {
   try {
