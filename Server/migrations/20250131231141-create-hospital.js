@@ -9,54 +9,58 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    await queryInterface.createTable('users', {
+    await queryInterface.createTable('hospitals', {
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
-        allowNull: false,
         defaultValue: Sequelize.UUIDV4
       },
-      first_name: {
+      name: {
         type: Sequelize.STRING,
         allowNull: false
-      },
-      last_name: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      email: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true
-      },
-      password: {
-        type: Sequelize.STRING,
-      },
-      role: {
-        type: Sequelize.STRING,
       },
       phone: {
         type: Sequelize.STRING,
       },
-      date_of_birth: {
-        type: Sequelize.DATEONLY,
+      email: {
+        type: Sequelize.STRING
       },
-      verified: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false
+      city: {
+        type: Sequelize.STRING
       },
-      is_active: {
+      state: {
+        type: Sequelize.STRING
+      },
+      consultation_fee: {
+        type: Sequelize.BIGINT
+      },
+      open: {
         type: Sequelize.BOOLEAN,
         defaultValue: true
       },
+      address: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      rating: {
+        type: Sequelize.INTEGER,
+        allowNull: true
+      },
+      description: {
+        type: Sequelize.STRING,
+      },
+      verified: {
+        type: Sequelize.BOOLEAN,
+      },
       createdAt: {
         type: Sequelize.DATE,
-        allowNull: false
+        defaultValue: Sequelize.NOW
       },
       updatedAt: {
         type: Sequelize.DATE,
-      },
-    });
+        defaultValue: Sequelize.NOW
+      }
+    })
   },
 
   async down (queryInterface, Sequelize) {
@@ -66,6 +70,6 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.dropTable('users');
+    await queryInterface.dropTable('hospitals');
   }
 };
