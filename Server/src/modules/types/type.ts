@@ -1,7 +1,10 @@
 import { Request, Response } from 'express';
+import { AppointmentStatus } from './appointment.type';
+import { DoctorSpecialty } from '../doctor/model/doctor.model';
 
 export interface UserAttributes {
-    name?: string;
+    first_name?: string;
+    last_name?: string;
     email?: string;
     password?: string;
     confirm_password?: string;
@@ -11,6 +14,19 @@ export interface UserData extends Omit<UserAttributes, 'id'> {
   confirm_password?: string;
 }
 
+export interface DoctorRegistrationDTO {
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone?: string;
+  specialty: DoctorSpecialty;
+  hospital_email: string;
+}
+
+export interface DoctorRegistrationRequest extends Request {
+  body: DoctorRegistrationDTO;
+}
+
 export interface TypedRequest extends Request {
   body: {
     name: string;
@@ -18,6 +34,17 @@ export interface TypedRequest extends Request {
     password: string;
     confirm_password: string;
   };
+}
+
+export interface hospitalRegData extends Request {
+  body: {
+    name: string;
+    email: string;
+    address: string;
+    phone: string;
+    services: string[];
+
+  }
 }
 
 export interface VerifyRequest extends Request {
@@ -91,7 +118,12 @@ export interface VerificationResponse {
   statusCode: number;
   status: string;
   message: string;
-  data: unknown;
+  data?: unknown;
+}
+
+export interface VerificationRequestBody {
+  email: string;
+  code: string
 }
 
 export interface ProviderOnboardingResponse {
@@ -120,7 +152,7 @@ export interface SearchData {
   limit: number;
 }
 
-interface PaginatedResponse<T> {
+export interface PaginatedResponse<T> {
   status: string;
   data: T[];
   meta: {
@@ -128,4 +160,62 @@ interface PaginatedResponse<T> {
     limit: number;
     total: number;
   };
+}
+
+declare namespace Express {
+  export interface Request {
+    user?: {
+      id: string;
+      // ... other user properties
+    };
+  }
+}
+
+export interface ValidationErrorResponse {
+  field: string;
+  message: string;
+}
+
+export interface ApiResponse<T> {
+  statusCode: number;
+  status: 'success' | 'error' | 'fail';
+  message: string;
+  data: T | null;
+}
+
+export interface AppointmentCreateDTO {
+  user_id: string;        // Required in DTO but missing in validation
+  patient_id: string;
+  doctor_id: string;
+  date: string | Date;    // Allow both string and Date
+  start_time: string;
+  end_time: string;
+  reason?: string;        // Optional
+  note?: string;         // Required in DTO but missing in validation
+  status: AppointmentStatus;
+}
+
+// export interface AuthenticatedRequest extends Request {
+//   user?: {
+//     id: string;
+//     email: string;
+//     role: UserRole;
+//   };
+// }
+
+export interface ApiResponse<T> {
+  statusCode: number;
+  status: 'success' | 'error' | 'fail';
+  message: string;
+  data: T | null;
+}
+
+export interface AppointmentResponse {
+  id: string;
+  doctor_id: string;
+  patient_id: string;
+  date: string;
+  start_time: string;
+  end_time: string;
+  status: AppointmentStatus;
 }
