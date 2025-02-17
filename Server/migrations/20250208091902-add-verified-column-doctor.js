@@ -9,24 +9,8 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    await queryInterface.createTable('providers', {
-      id:  {
-        type: Sequelize.UUID,
-        primaryKey: true,
-        allowNull: false,
-        defaultValue: Sequelize.UUIDV4
-      },
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      address: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      city: {
-        
-      }
+    await queryInterface.addColumn('doctors', 'verified', {
+      type: Sequelize.BOOLEAN
     })
   },
 

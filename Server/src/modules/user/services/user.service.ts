@@ -1,6 +1,3 @@
-import { customAlphabet } from "nanoid";
-import bcrypt from "bcrypt";
-
 import { getFromRedis, saveToRedis } from "../../../core/redis";
 import { CreationAttributes } from "sequelize";
 import { User } from "../models/user.model";
@@ -25,8 +22,7 @@ export const getAllUsers = async (): Promise<UserResponseData> => {
     });
 
     if (users && users.length > 0) {
-      await saveToRedis(key, JSON.stringify(users), 300);
-      console.log("Users saved to redis");
+      await saveToRedis(key, JSON.stringify(users), 900);
       return {
         statusCode: 200,
         status: "success",
@@ -50,8 +46,8 @@ export const getOneUser = async (id: string) => {
   try {
     const user = await User.findByPk(id, {
       attributes: {
-        exclude: ["password", "createdAt", "updatedAt"],
-      },
+        exclude: ["password", "createdAt", "updatedAt"]
+      }
     });
     if (!user) {
       return {
@@ -109,6 +105,7 @@ export const deleteUser = async (id: string) => {
         data: [],
       };
     }
+
     return {
       statusCode: 200,
       status: "success",

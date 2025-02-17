@@ -2,6 +2,9 @@ import dotenv from 'dotenv';
 dotenv.config();
 import { Sequelize } from 'sequelize-typescript';
 import { User } from '../modules/user/models/user.model';
+import { Appointment } from '../modules/appointment/models/appointment.model';
+import { Hospital } from '../modules/hospital/models/hospital.model';
+import { Doctor } from '../modules/doctor/model/doctor.model';
 
 const sequelize = new Sequelize({
   dialect: 'postgres',
@@ -10,7 +13,7 @@ const sequelize = new Sequelize({
   username: process.env.DB_USER || 'postgres',
   password: process.env.DB_PASSWORD || 'postgres',
   database: process.env.DB_NAME || 'your_database',
-  models: [User],
+  models: [User, Appointment, Hospital, Doctor],
 });
 
 export default sequelize;

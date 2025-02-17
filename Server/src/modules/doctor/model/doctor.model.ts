@@ -3,21 +3,29 @@ import {
   Column, 
   Model, 
   DataType, 
-  HasMany
+  ForeignKey, 
+  BelongsTo, 
+  HasMany 
 } from 'sequelize-typescript';
+import { Hospital } from '../../hospital/models/hospital.model';
 import { Appointment } from '../../appointment/models/appointment.model';
 
-export enum UserRole {
-  PATIENT = 'PATIENT',
-  ADMIN = 'ADMIN',
-  STAFF = 'STAFF'
+export enum DoctorSpecialty {
+  GENERAL_PRACTICE = 'GENERAL_PRACTICE',
+  CARDIOLOGIST = 'CARDIOLOGIST',
+  PEDIATRICS = 'PEDIATRICS',
+  NEUROLOGIST = 'NEUROLOGIST',
+  SURGEON = 'SURGRON',
+  DENTIST = 'DENTIST',
+  DERMATOLOGIST = 'DERMATOLOGIST',
+  GYNECOLOGIST = 'GYNECOLOGIST'
 }
 
 @Table({
-  tableName: 'users',
+  tableName: 'doctors',
   timestamps: true
 })
-export class User extends Model {
+export class Doctor extends Model {
   @Column({
     type: DataType.UUID,
     defaultValue: DataType.UUIDV4,
@@ -45,41 +53,38 @@ export class User extends Model {
   email?: string;
 
   @Column({
-    type: DataType.STRING,
-    allowNull: false
-  })
-  password?: string;
-
-  @Column({
-    type: DataType.ENUM(...Object.values(UserRole)),
-    defaultValue: UserRole.PATIENT
-  })
-  role?: UserRole;
-
-  @Column({
     type: DataType.STRING
   })
   phone?: string;
 
   @Column({
-    type: DataType.DATE
+    type: DataType.ENUM(...Object.values(DoctorSpecialty)),
+    allowNull: false
   })
-  date_of_birth?: Date;
+  specialty?: DoctorSpecialty;
 
   @Column({
     type: DataType.BOOLEAN,
-    allowNull: false,
     defaultValue: false
   })
   verified?: boolean;
 
+  @ForeignKey(() => Hospital)
+  @Column({
+    type: DataType.UUID,
+    allowNull: false
+  })
+  hospital_id?: string;
+
   @Column({
     type: DataType.BOOLEAN,
-    allowNull: false,
     defaultValue: true
   })
-  is_active?: boolean;
+  available?: boolean;
+
+  @BelongsTo(() => Hospital)
+  hospitals?: Hospital;
 
   @HasMany(() => Appointment)
-  appointments?: Appointment[];
+  appointments!: Appointment[];
 }
