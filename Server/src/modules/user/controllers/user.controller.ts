@@ -1,15 +1,14 @@
 import { deleteUser, getAllUsers, getOneUser, updateUser } from '../services/user.service';
 import { idSchema, userUpdateSchema } from '../../../utils/validator';
 import { UserResponseData } from '../../types/type';
-import  { Response, Request as ExpressRequest } from 'express';
+import { Response, Request as ExpressRequest } from 'express';
 
 
 
 const UserController = {
   getAllUsers: async (req: ExpressRequest, res: Response): Promise<Response> => {
     try {
-      const users: UserResponseData = await getAllUsers()
-      console.log(users);
+      const users: UserResponseData = await getAllUsers();
       return res.status(users.statusCode).send({
         status: users.status,
         message: users.message,
@@ -28,7 +27,7 @@ const UserController = {
         message: errorResponse.message,
         data: errorResponse.data
       });
-      }
+    }
     
   },
 
@@ -46,7 +45,6 @@ const UserController = {
   updateUser: async (req: ExpressRequest, res: Response): Promise<Response> => {
     try {
       const id = req.params.id;
-
       const validatedData = await userUpdateSchema.validate(req.body, req.params);
       const update = await updateUser( id, validatedData);
       return res.status(update.statusCode).send({ status: (update.status), message: (update.message), data: (update.data)})
