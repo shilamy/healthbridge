@@ -184,14 +184,14 @@ export interface ApiResponse<T> {
 }
 
 export interface AppointmentCreateDTO {
-  user_id: string;        // Required in DTO but missing in validation
+  user_id: string;
   patient_id: string;
   doctor_id: string;
-  date: string | Date;    // Allow both string and Date
+  date: string | Date;
   start_time: string;
   end_time: string;
-  reason?: string;        // Optional
-  note?: string;         // Required in DTO but missing in validation
+  reason?: string;
+  note?: string;
   status: AppointmentStatus;
 }
 
