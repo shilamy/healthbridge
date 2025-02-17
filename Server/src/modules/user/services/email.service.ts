@@ -1,6 +1,6 @@
 import nodemailer, { SendMailOptions, Transporter, TransportOptions } from 'nodemailer';
-
 import { EmailPayload, EmailResponse } from '../../types/type';
+
 
 export async function sendEmail(emailPayload: EmailPayload): Promise<EmailResponse> {
   const transporter: Transporter = nodemailer.createTransport({

@@ -1,4 +1,3 @@
-
 import { JwtPayload } from '../../modules/types/type'
 
 declare global {
@@ -8,5 +7,14 @@ declare global {
     }
   }
 }
-export { JwtPayload };
 
+declare namespace Express {
+  export interface Request {
+    user?: {
+      id: string;
+      email: string,
+      role: string
+    };
+  }
+}
+export { JwtPayload };
