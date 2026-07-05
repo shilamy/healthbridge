@@ -1,20 +1,18 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-sans",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Healthbridge",
-  description: "Healthbridge: A web-based platform connecting patients with healthcare providers. Tailored for underserved and low-income communities, bridging gaps in healthcare access and meeting unique needs",
+  title: "MediCore — Hospital management, built for African healthcare",
+  description:
+    "MediCore is a multi-tenant hospital management system for hospitals, clinics, and labs. Run triage, consults, labs, pharmacy, and billing from one platform — reliable even when the network isn't.",
 };
 
 export default function RootLayout({
@@ -24,9 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${inter.variable} font-sans antialiased`}>
         {children}
       </body>
     </html>
