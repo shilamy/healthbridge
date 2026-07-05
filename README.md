@@ -1,6 +1,6 @@
 # MediCore HMS — Public Landing Page
 
-The public-facing marketing site for MediCore HMS. Built with Next.js for server-side rendering and SEO. Served at `yourapp.com`.
+The public-facing marketing site for MediCore HMS. Built with Next.js for server-side rendering and SEO. Served at `yourapp.com`, backed by the `hms/` API.
 
 **Role in the monorepo:**
 - `hms/` → Backend API (api.yourapp.com)
@@ -34,20 +34,6 @@ Once a user is authenticated, they are redirected to `app.yourapp.com` (the Heal
 | UI Components | Radix UI (dropdown-menu, hover-card, slot) |
 | Icons | Lucide React |
 | Utilities | clsx, class-variance-authority, tailwind-merge |
-
-### Backend (`Server/`)
-| Layer | Technology |
-|-------|-----------|
-| Framework | Express 4 |
-| Language | TypeScript |
-| Database | PostgreSQL + Sequelize |
-| Auth | JWT + bcrypt |
-| Cache | Redis (ioredis) |
-| Message Queue | RabbitMQ |
-| Email | Nodemailer + Brevo SMTP |
-| Rate Limiting | express-rate-limit |
-
-> The Server/ in this repo handles the registration and initial onboarding flow. All clinical API calls are handled by `hms/`.
 
 ---
 
@@ -85,16 +71,13 @@ The shared cookie domain means the hospital web app (`app.yourapp.com`) automati
 
 The frontend is currently in **early placeholder stage**. The component structure is in place (Radix UI, Tailwind, layout) but page content needs to be built out from the Google Stitch designs.
 
-Backend (`Server/`) has:
-- User, Doctor, Hospital, Appointment models and routes
-- Email verification flow (6-digit code via Redis, 10-min TTL)
-- JWT auth with secure cookies
-- RabbitMQ notification queue
-- Atomic appointment creation with conflict detection
-
 ---
 
 ## Getting Started
+
+### Prerequisites
+- Node.js 18+
+- `hms/` API running at `http://localhost:3000`
 
 ### Frontend
 
@@ -102,18 +85,7 @@ Backend (`Server/`) has:
 cd healthbridge/Client
 npm install
 npm run dev
-# Runs at http://localhost:3000
-```
-
-### Backend
-
-```bash
-cd healthbridge/Server
-npm install
-cp .env.example .env
-npm run migrate
-npm run dev
-# Runs at http://localhost:4000
+# Runs at http://localhost:3001
 ```
 
 ---
@@ -123,7 +95,7 @@ npm run dev
 ### Frontend (`Client/.env.local`)
 
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:4000/api/v1
+NEXT_PUBLIC_API_URL=http://localhost:3000/api/v1
 NEXT_PUBLIC_APP_URL=http://localhost:5173
 ```
 
@@ -132,34 +104,6 @@ NEXT_PUBLIC_APP_URL=http://localhost:5173
 > NEXT_PUBLIC_API_URL=https://api.yourapp.com
 > NEXT_PUBLIC_APP_URL=https://app.yourapp.com
 > ```
-
-### Backend (`Server/.env`)
-
-```env
-PORT=4000
-NODE_ENV=development
-
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=healthbridge_landing
-DB_USER=postgres
-DB_PASSWORD=yourpassword
-
-JWT_SECRET=your_jwt_secret
-JWT_EXPIRES_IN=1h
-
-REDIS_URL=redis://localhost:6379
-RABBITMQ_URL=amqp://localhost
-
-SMTP_HOST=smtp-relay.brevo.com
-SMTP_PORT=587
-SMTP_USER=your_login
-SMTP_PASS=your_key
-
-# App URLs (for CORS and redirects)
-APP_URL=http://localhost:5173
-LANDING_URL=http://localhost:3000
-```
 
 ---
 
